@@ -116,6 +116,21 @@ abstract class aAction extends aEtlObject
             $this->logAndThrowException($msg);
         }
 
+        if ($this->etlConfig->sectionExists('parameters')) {
+            $parameters = $this->etlConfig->getSectionData('parameters');
+            if ($parameters instanceof stdClass) {
+                $parameters = (array) $parameters;
+            }
+            $this->variableMap = array_merge($this->variableMap, $parameters);
+        }
+
+        if (null !== $this->options->parameters) {
+            $parameters = $this->options->parameters;
+            if ($parameters instanceof stdClass) {
+                $parameters = (array) $parameters;
+            }
+            $this->variableMap = array_merge($this->variableMap, $parameters);
+        }
     }  // __construct()
 
     /* ------------------------------------------------------------------------------------------
